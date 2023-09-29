@@ -8,6 +8,7 @@ class ExprParser(Parser):
     precedence = (
         ('left', PLUS, MINUS),
         ('left', TIMES, DIVIDE),
+        ('right', POWER),  # Right-associative (e.g., 2^3^2 is 2^(3^2))
         ('nonassoc', 'UMINUS'),
     )
 
@@ -50,4 +51,7 @@ class ExprParser(Parser):
     @_('expr MODULO expr')
     def expr(self, p):
         return p.expr0 % p.expr1
-
+        
+    @_('expr POWER expr')
+    def expr(self, p):
+        return p.expr0 ** p.expr1
