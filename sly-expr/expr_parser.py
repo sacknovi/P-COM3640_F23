@@ -41,3 +41,13 @@ class ExprParser(Parser):
     @_('NUMBER')
     def expr(self, p):
         return p.NUMBER
+    
+    @_('QUIT')
+    def expr(self, p):
+        print("Exiting the program...")
+        exit(0)
+        
+    @_('expr MODULO expr')
+    def expr(self, p):
+        return p.expr0 % p.expr1
+

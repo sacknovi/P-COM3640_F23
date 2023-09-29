@@ -2,7 +2,7 @@ from sly import Lexer
 
 class ExprLexer(Lexer):
     # Set of token names
-    tokens = { NUMBER, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN }
+    tokens = { NUMBER, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN, QUIT, MODULO}
 
     # Regular expression rules for simple tokens
     PLUS    = r'\+'
@@ -11,6 +11,9 @@ class ExprLexer(Lexer):
     DIVIDE  = r'/'
     LPAREN  = r'\('
     RPAREN  = r'\)'
+    
+    QUIT = r'quit'
+    MODULO = r'%'
 
     # Regular expression rule with action code
     @_(r'\d+')
