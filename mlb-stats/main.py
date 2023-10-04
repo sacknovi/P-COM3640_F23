@@ -46,8 +46,6 @@ for index, row in df.iterrows():
     for key, formula in formulas.items():
         try:
             result = parser.parse(key)
-            if type(result) == bool:
-                df[key] = df[key].astype('bool')
             df.at[index, key] = result
         except Exception as e:
             print(f"Error parsing formula {key} for player {env['PLAYER']}: {str(e)}")
