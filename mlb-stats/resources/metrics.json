@@ -1,0 +1,14 @@
+{
+  "metrics": [
+    {"key": "PA", "value": "AB + BB + SH + SF + HBP"},
+    {"key": "AVG", "value": "H / AB"},
+    {"key": "OBP", "value": "(H + BB + HBP) / (PA - SH)"},
+    {"key": "TB", "value": "(H - 2B - 3B - HR) + (2B * 2) + (3B * 3) + (HR * 4)"},
+    {"key": "SLG", "value": "TB / AB"},
+    {"key": "OPS", "value": "OBP + SLG"},
+    {"key": "info", "value": "JOIN('-',PLAYER,TEAM,POSITION,STR(AGE))"},
+    {"key": "slashline", "value": "JOIN('/',STR(AVG),STR(OBP),STR(SLG))"},
+    {"key": "infielder", "value": "NOT (POSITION IN ('OF','DH'))"},
+    {"key": "veteran", "value": "IF (AGE > 35, TRUE, IF(POSITION = 'C' AND AGE >= 32, TRUE, FALSE))"}
+  ]
+}
