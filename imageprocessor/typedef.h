@@ -36,3 +36,33 @@ typedef struct {
     uint bitDepth;   // Number of bits used to represent a single pixel
     uint byteWidth;  // Width is padded to align to a 4-byte boundary
 } imageinfo_t;
+
+typedef struct {
+    uchar value;
+} depth8_t;
+
+typedef struct {
+    ushort value;
+} depth16_t;
+
+typedef struct {
+    uchar blue;
+    uchar green;
+    uchar red;
+} depth24_t;
+
+typedef struct {
+    uchar blue;
+    uchar green;
+    uchar red;
+    uchar alpha;
+} depth32_t;
+
+typedef union {
+    depth8_t depth8;
+    depth16_t depth16;
+    depth24_t depth24;
+    depth32_t depth32;
+} pixel_t;
+
+
