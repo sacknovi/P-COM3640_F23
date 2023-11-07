@@ -152,7 +152,7 @@ void process_color_table(img_operation_t operation, imageinfo_t *imageinfo)
     {
         for (int i = 0; i < totalBytes; i += 4)
         {
-            uchar gray = rgb_to_gray((pixel_t*)&buffer[i]);
+            uchar gray = rgb_to_gray((pixel_t *)&buffer[i]);
             buffer[i] = gray;
             buffer[i + 1] = gray;
             buffer[i + 2] = gray;
@@ -167,7 +167,6 @@ uchar rgb_to_gray(pixel_t *pixel)
 {
     return 0.299 * pixel->depth24.red + 0.587 * pixel->depth24.green + 0.114 * pixel->depth24.blue;
 }
-
 
 int process_hflip(const imageinfo_t *imageinfo)
 {
@@ -228,13 +227,16 @@ int process_grayscale(const imageinfo_t *imageinfo)
         if (!fread(buffer, sizeof(buffer), 1, stdin))
             return 0;
 
-        for (int col = 0; col < imageinfo->pxWidth; col++)
+        if (bytesPerPixel > 1)
         {
-            uint offset = col * bytesPerPixel;
-            uint gray = rgb_to_gray((pixel_t*)&buffer[offset]);
-            buffer[offset] = gray;
-            buffer[offset + 1] = gray;
-            buffer[offset + 2] = gray;
+            for (int col = 0; col < imageinfo->pxWidth; col++)
+            {
+                uint offset = col * bytesPerPixel;
+                uint gray = rgb_to_gray((pixel_t *)&buffer[offset]);
+                buffer[offset] = gray;
+                buffer[offset + 1] = gray;
+                buffer[offset + 2] = gray;
+            }
         }
 
         fwrite(buffer, sizeof(buffer), 1, stdout);
