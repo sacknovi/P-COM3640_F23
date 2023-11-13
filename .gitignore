@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Csharp projects
+obj/
+
 # Distribution / packaging
 .Python
 build/
