@@ -8,6 +8,7 @@ __pycache__/
 
 # Csharp projects
 obj/
+bin/
 
 # Distribution / packaging
 .Python
