@@ -16,6 +16,7 @@ int process_hflip(const imageinfo_t *imageinfo);
 int process_vflip(const imageinfo_t *imageinfo);
 int process_grayscale(const imageinfo_t *imageinfo);
 void swapBytes(char *left, char *right, uint count);
+int process_rgb(const imageinfo_t *imageinfo);
 
 int main(int argc, char *argv[])
 {
@@ -41,8 +42,8 @@ int main(int argc, char *argv[])
 
     if (img_operation == INFO)
         print_image_info(&imageinfo);
-    else if (img_operation == RGB & !process_rgb(&imageinfo))
-        return error(1, "Error processing image\n");
+    else if (img_operation == RGB)
+        return process_rgb(&imageinfo);
     else
     {
         output_header(img_operation, &bmpheader, &imageinfo);
@@ -253,4 +254,51 @@ void swapBytes(char *left, char *right, uint count)
         *(left + i) = *(right + i);
         *(right + i) = temp;
     }
+}
+
+int process_rgb(const imageinfo_t *imageinfo)
+{
+    int bytesPerPixel = imageinfo->bitDepth / 8;
+    char buffer[imageinfo->byteWidth];
+
+    for (int row = 0; row < imageinfo->pxHeight; row++)
+    {
+        if (!fread(buffer, sizeof(buffer), 1, stdin))
+            return 0;
+
+        // iterate over each pixel in the row
+        // and output text with R:G:B values separated by a comma
+        // one row per line
+        // e.g. 120:120:120,0:0:0,255:255:255
+        for (int col = 0; col < imageinfo->pxWidth; col++)
+        {
+            pixel_t *pixel = (pixel_t *)&buffer[col * bytesPerPixel];
+
+            uint red, green, blue;
+            if (bytesPerPixel == 3)
+            {
+                red = pixel->depth24.red;
+                green = pixel->depth24.green;
+                blue = pixel->depth24.blue;
+            }
+            else if (bytesPerPixel == 4)
+            {
+                red = pixel->depth32.red;
+                green = pixel->depth32.green;
+                blue = pixel->depth32.blue;
+            }
+            else
+            {
+                return error(1, "Unupported bit depth\n");
+            }
+
+            if (col > 0)
+                fprintf(stdout, ",");
+            fprintf(stdout, "%u:%u:%u", red, green, blue);
+        }
+
+        fprintf(stdout, "\n");
+    }
+
+    return 1;
 }
