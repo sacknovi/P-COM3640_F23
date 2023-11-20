@@ -55,3 +55,15 @@ class ExprParser(Parser):
     @_('expr POWER expr')
     def expr(self, p):
         return p.expr0 ** p.expr1
+    
+    @_('IDENTIFIER ASSIGN expr')
+    def expr(self, p):
+        self.names[p.IDENTIFIER] = p.expr
+        return p.expr
+        
+    @_('IDENTIFIER')
+    def expr(self, p):
+        try:
+            return self.names[p.IDENTIFIER]
+        except LookupError:
+            print(f"Undefined name {p.IDENTIFIER}")
