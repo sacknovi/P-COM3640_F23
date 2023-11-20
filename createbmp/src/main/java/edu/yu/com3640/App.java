@@ -3,6 +3,8 @@ package edu.yu.com3640;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import edu.yu.com3640.Impl.RgbPixelDataTextFile;
+
 public class App {
     private static final Logger logger = LogManager.getLogger(App.class);
 
@@ -16,17 +18,16 @@ public class App {
 
         String filePath = args[0];
 
-        Image image = ImageFactory.create24BitBMPImage(filePath);
+        ImagePixelData pixelData = null;
+        try {
+            pixelData = new RgbPixelDataTextFile(filePath).loadPixelData();
+        } catch (Exception e) {
+            logger.fatal("Failed to load pixel data", e);
+            System.exit(1);
+        }
+
+        Image image = ImageFactory.create24BitBMPImage(pixelData);
         processImage(image, "24");
-
-        image = ImageFactory.create32BitBMPImage(filePath);
-        processImage(image, "32");
-
-        image = ImageFactory.create16BitBMPImage(filePath);
-        processImage(image, "16");
-
-        image = ImageFactory.create8BitBMPImage(filePath);
-        processImage(image, "8");
 
         logger.info("Application exiting");
     }
