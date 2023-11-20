@@ -17,7 +17,8 @@ typedef enum
     HFLIP,
     VFLIP,
     GRAYSCALE,
-    INFO
+    INFO,
+    RGB
 } img_operation_t;
 
 #define BMP_HEADER_SIZE 54

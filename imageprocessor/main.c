@@ -39,7 +39,8 @@ int main(int argc, char *argv[])
 
     if (img_operation == INFO)
         print_image_info(&imageinfo);
-
+    else if (img_operation == RGB & !process_rgb(&imageinfo))
+        return error(1, "Error processing image\n");
     else
     {
         output_header(img_operation, &bmpheader, &imageinfo);
@@ -78,6 +79,9 @@ int read_img_operation(int argc, char *argv[], img_operation_t *img_operation)
 
     else if (STRING_COMPARE(argv[1], "INFO") == 0)
         *img_operation = INFO;
+
+    else if (STRING_COMPARE(argv[1], "RGB") == 0)
+        *img_operation = RGB;
 
     else
         return 0;
